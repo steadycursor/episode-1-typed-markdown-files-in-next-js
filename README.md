@@ -1,40 +1,50 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Typesafe Markdown with Next.js and TypeScript
 
-## Getting Started
+This repository serves as the source code for our YouTube episode on implementing typesafe markdown files in a Next.js project using TypeScript. For a more detailed explanation and step-by-step guide, please refer to our [blog post on Steady Cursor](https://www.steadycursor.com/episodes/typesafe-markdown-files-with-nextjs-and-typescript) or check out whole [episode on YouTube](https://youtu.be/punYyyKgpWo).
 
-First, run the development server:
+## Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+The purpose of this setup is to create a blog-like functionality on a Next.js site, where markdown files are used to manage content with type safety, thanks to the `zod-matter` library. This ensures that all content adheres to a predefined schema, reducing errors and improving the quality of the content served. Checkout the `getPostsData` function below, that does all hard work. You can use then this function in `getStaticProps` function or other Next.js function for server side rendering or for building static sites.
+
+## `getPostsData.ts` Example
+
+Below is the `getPostsData.ts` utility that reads markdown files from a directory and returns typed post objects using `zod-matter`.
+
+```typescript
+import fs from 'fs';
+import path from 'path';
+import { z } from 'zod';
+import { parse } from 'zod-matter';
+
+const postsDirectory = path.join(process.cwd(), 'src', 'posts');
+
+export const getPostsData = () => {
+    const fileNames = fs.readdirSync(postsDirectory);
+    const allPostsData = fileNames.map((fileName) => getPostData(fileName));
+
+    return allPostsData;
+};
+
+const getPostData = (fileName: string) => {
+    const slug = fileName.replace(/\.md$/, '');
+
+    const fullPath = path.join(postsDirectory, fileName);
+    const fileContents = fs.readFileSync(fullPath, 'utf8');
+
+    const { data, content } = parse(
+        fileContents,
+        z.object({
+            title: z.string(),
+            date: z.string().datetime(),
+        })
+    );
+
+    return {
+        ...data,
+        content,
+        slug,
+    };
+};
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+To utilize this code in your project, ensure you have both `zod` and `zod-matter` installed and adapt the file paths according to your directory structure. All your posts should be stored at `[your-project]/src/posts` location.
