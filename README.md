@@ -1,6 +1,8 @@
+![Steady Cursor](https://www.steadycursor.com/readme-episode-banner.png)
+
 # Typesafe Markdown with Next.js and TypeScript
 
-This repository serves as the source code for our YouTube episode on implementing typesafe markdown files in a Next.js project using TypeScript. For a more detailed explanation and step-by-step guide, please refer to our [blog post on Steady Cursor](https://www.steadycursor.com/episodes/typesafe-markdown-files-with-nextjs-and-typescript) or check out whole [episode on YouTube](https://youtu.be/punYyyKgpWo).
+This repository serves as the source code for our YouTube episode on implementing typesafe markdown files in a Next.js project using TypeScript. For a more detailed explanation and step-by-step guide, please refer to our [blog post on Steady Cursor](https://www.steadycursor.com/episodes/typesafe-markdown-files-with-nextjs-and-typescript) or check out whole [episode on YouTube](https://youtu.be/qPY7oFxkEwk).
 
 ## Overview
 
