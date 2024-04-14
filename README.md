@@ -1,4 +1,4 @@
-![Steady Cursor](https://www.steadycursor.com/readme-episode-banner.png)
+[![Steady Cursor](https://www.steadycursor.com/banner/readme.png)](https://www.steadycursor.com/episodes/typesafe-markdown-files-with-nextjs-and-typescript)
 
 # Typesafe Markdown with Next.js and TypeScript
 
